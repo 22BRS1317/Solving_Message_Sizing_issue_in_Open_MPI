@@ -1,0 +1,35 @@
+Why we are getting Message Sizing Issue in Open MPI?
+
+In Open MPI (Message Passing Interface), message sizing issues can occur due to various reasons, and they are common sources of errors in parallel and distributed computing. Here are some common reasons why you might encounter message sizing issues in Open MPI:
+
+1.Buffer Overflows: If you allocate a fixed-size buffer for sending or receiving messages and the actual message size exceeds the buffer size, you will encounter message sizing issues. This can result in buffer overflows, memory corruption, and program crashes.
+
+2.Inconsistent Message Sizes: In a parallel program, it's essential that the sender and receiver processes agree on the size of messages being sent and received. If there's a mismatch between the sender's perception of the message size and the receiver's expectation, it can lead to message sizing issues.
+
+3.Dynamic Data: If your application deals with dynamic data structures (e.g., arrays or linked lists) and you don't properly manage the size of these data structures when sending or receiving messages, it can result in incorrect message sizes.
+
+4.Serialization and Deserialization: When sending complex data structures (e.g., structs or objects) between MPI processes, you need to serialize the data for transmission and deserialize it on the receiving end. If the serialization or deserialization code doesn't handle the message size correctly, it can lead to sizing issues.
+
+5.Data Type Mismatch: MPI supports different data types for message communication (e.g., MPI_INT, MPI_DOUBLE). If the data type specified during communication doesn't match the actual data type of the message, it can lead to message sizing issues.
+
+6.Data Truncation: If you send a large message but the receiving buffer is too small to accommodate it, the message might get truncated, resulting in data loss and sizing issues.
+
+7.Data Padding: Some MPI implementations may add padding to messages for alignment or performance reasons. If you're not aware of this padding, it can affect your message size calculations.
+
+To address message sizing issues in Open MPI, consider the following best practices:
+
+Always allocate buffers with sufficient size to accommodate the largest possible message.
+
+•	Use MPI functions like ‘MPI_Get_count’ or ‘MPI_Probe’ to determine the actual size of received messages dynamically.
+
+•	Ensure that both sender and receiver processes agree on the data type and size of messages.
+
+•	Implement error checking and handling for message size mismatches and buffer overflows.
+
+•	If you're dealing with dynamic data structures, calculate and communicate the size of the data explicitly.
+
+•	Be mindful of serialization and deserialization routines to correctly handle message sizes.
+
+•	Keep an eye on any platform-specific or implementation-specific behavior that might affect message sizes.
+
+	Debugging message sizing issues in Open MPI can be challenging, but careful code review and error checking, along with proper memory management and data handling, can help you avoid and diagnose such issues.
